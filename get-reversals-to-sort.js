@@ -26,10 +26,15 @@ function getReversalsToSort(arrayOfNumbers) {
 		}
 		
 		// Start reversing until the first value is the biggest one in the array
-		if (isLargestFirst(largestNumInArray, tempNumbers)) {
-			reversals.push(revNum); // We know that this was a good move, store it
-			numbers = tempNumbers.reverse(); // We know, that if we reverse the array, we get the biggest number to the and
-			reversals.push(numbers.length); // Again, this was a good move, store it
+		if (isLargestFirst(largestNumInArray, tempNumbers) || isLargestFirst(largestNumInArray, numbers)) {
+			// We know, that if we reverse the array, we get the biggest number to the end
+			if (isLargestFirst(largestNumInArray, numbers)) {
+				numbers.reverse(); // We store this move later
+			} else {
+				reversals.push(revNum); // We know that partial sort was a good move, store it
+				numbers = tempNumbers.reverse(); // We store this move later
+			}
+			reversals.push(numbers.length); // Store the reverse move
 			numbers.pop(); // Remove the last (biggest) number from the array, so we can repeat this loop
 			largestNumInArray = Math.max(...numbers); // Assign a new largest number in array
 		}
